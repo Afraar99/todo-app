@@ -3,7 +3,11 @@ import todo_icon from "../assets/todo_icon.png";
 import Todoitems from "./Todoitems";
 
 const ToDo = () => {
-  const [todoList, setTodoList] = useState(localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []);
+  const [todoList, setTodoList] = useState(
+    localStorage.getItem("todos")
+      ? JSON.parse(localStorage.getItem("todos"))
+      : []
+  );
 
   const inputRef = useRef();
 
@@ -21,6 +25,12 @@ const ToDo = () => {
     };
     setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = "";
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      add(); // Call the add function when the Enter key is pressed
+    }
   };
 
   const deleteTodo = (id) => {
@@ -61,6 +71,7 @@ const ToDo = () => {
           className="bg-transparent border-0 outline-none flex-1 h-14 pl-6 pr-2 placeholder:text-slate-600"
           type="text"
           placeholder="Add your task"
+          onKeyDown={handleKeyDown}
         />
         <button
           onClick={add}
@@ -80,7 +91,7 @@ const ToDo = () => {
               id={item.id}
               isComplete={item.isComplete}
               deleteTodo={deleteTodo}
-              toggle = {toggle}
+              toggle={toggle}
             />
           );
         })}
